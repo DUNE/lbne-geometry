@@ -1,0 +1,11 @@
+This area provides an example application of GeGeDe for the LBNE 35 ton prototype liquid argon detector.
+
+* Other descriptions
+
+ - [[https://cdcvs.fnal.gov/redmine/projects/lbnecode/wiki/LBNE_Geometries#35t-Prototype-Geometry][lbnecode wiki]] has a figure with some major elements labeled and with a "global" coordinate system definition. See also [[https://cdcvs.fnal.gov/redmine/projects/35ton/wiki/Lbne35t4apa_v3][v3]] for 35t geo from Tyler.
+
+ - [[https://github.com/czczc/LArViewer/tree/master/LBNE35t/Geometry][Chao's display]] has a GDML and a ROOT file with some geometry, presumably dumped from LArSoft(?)
+
+ - [[http://lbne2-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=7550][35t parameters]] gives a spread sheet with various dimensions and other parameters and includes a page with some 3D model renderings
+
+ - [[http://lbne2-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=6642][Alan Hahn 2012]] collaboration report has photos of concrete exterior, steel vapor barrier, foam insulation, SS membrane, top exterior 

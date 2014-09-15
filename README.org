@@ -1,0 +1,14 @@
+LBNE Geometry Descriptions
+
+* Installation
+
+#+BEGIN_EXAMPLE
+  $ virtualenv venv && source venv/bin/activate  # <-- optional
+  $ pip install lbne-geometry
+#+END_EXAMPLE
+
+* Geometries
+
+ - [[./doc/35ton.org][35 ton prototype]]
+ - 34kton
+ - beam line
