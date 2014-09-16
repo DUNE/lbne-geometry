@@ -2,7 +2,11 @@ This area provides an example application of GeGeDe for the LBNE 35 ton prototyp
 
 * Other descriptions
 
- - [[https://cdcvs.fnal.gov/redmine/projects/lbnecode/wiki/LBNE_Geometries#35t-Prototype-Geometry][lbnecode wiki]] has a figure with some major elements labeled and with a "global" coordinate system definition. See also [[https://cdcvs.fnal.gov/redmine/projects/35ton/wiki/Lbne35t4apa_v3][v3]] for 35t geo from Tyler.
+ - [[https://cdcvs.fnal.gov/redmine/projects/lbnecode/wiki/LBNE_Geometries#35t-Prototype-Geometry][lbnecode wiki]] has a figure with some major elements labeled and with a "global" coordinate system definition. See also [[https://cdcvs.fnal.gov/redmine/projects/35ton/wiki/Lbne35t4apa_v3][v3]] for 35t geo from Tyler.  
+
+   - [[https://cdcvs.fnal.gov/redmine/projects/lbnecode/repository/revisions/develop/entry/lbne/Geometry/gdml/lbne35t4apa_v2_nowires.gdml][lbne35t4apa_v2_nowires]] in git repo
+
+   - [[https://github.com/WCSim/WCSim/blob/develop/src/WCSimConstructMaterials.cc][WCSim materials]]
 
  - [[https://github.com/czczc/LArViewer/tree/master/LBNE35t/Geometry][Chao's display]] has a GDML and a ROOT file with some geometry, presumably dumped from LArSoft(?)
 
