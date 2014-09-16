@@ -84,19 +84,26 @@ class Matter(gegede.builder.Builder):
         
 
 class SimpleCryostat(gegede.builder.Builder):
+    '''Build a simple (incorrect) cryostat.
+
+    This assumes a symmetric, concentric rectangular onion which is
+    not reality, eg the roof is not flat and it has not concrete.
+
     '''
-    A simple rectangular cryostat
-    '''
-    defaults = dict(container_height = Q('2700 mm'),
-                    container_width = Q('2700 mm'),
-                    container_length = Q('4000 mm'),
-                    concrete_thickness = Q('300 mm'),
-                    concrete_material = 'Concrete',
-                    foam_thickness = Q('400 mm'),
-                    foam_material = 'Foam',
-                    membrane_thickness = Q('2 mm'),
-                    membrane_material = 'Stainless',
-                    bulk_material = 'LiquidArgon')
+    defaults = dict(
+        container_height = Q('4104 mm'), # adds extra 300 mm to accommodate nonexistent concrete roof
+        container_width = Q('4104 mm'),
+        container_length = Q('5404 mm'),
+
+        concrete_thickness = Q('300 mm'),
+        concrete_material = 'Concrete',
+
+        foam_thickness = Q('400 mm'),
+        foam_material = 'Foam',
+
+        membrane_thickness = Q('2 mm'),
+        membrane_material = 'Stainless',
+        bulk_material = 'LiquidArgon')
 
     def configure(self, **kwds):
         if not set(kwds).issubset(self.defaults): # no unknown keywords
@@ -106,7 +113,7 @@ class SimpleCryostat(gegede.builder.Builder):
         self.__dict__.update(**kwds)             # and update any from user
 
     def construct(self, geom):
-        # x,y,x
+        # dx,dy,dx
         dim = [0.5* x for x in (self.container_width, self.container_length, self.container_height)]
 
         lvs = list()
@@ -117,9 +124,11 @@ class SimpleCryostat(gegede.builder.Builder):
              ("insulation", self.foam_thickness,     self.foam_material),
              ("membrane",   self.membrane_thickness, self.membrane_material),
              ("bulk",       None,                    self.bulk_material)]:
-            pre='%s_%s_' % (self.name, name)
-            shape = geom.shapes.Box(pre+'shape', *dim)
-            lv = geom.structure.Volume(pre+'volume', material = mat, shape=shape)
+
+            shape = geom.shapes.Box(name+'_shape', *dim)
+            print '35:',shape
+
+            lv = geom.structure.Volume(name+'_volume', material = mat, shape=shape)
 
             if lvs:             # place
                 last_lv = lvs[-1]
