@@ -1,9 +1,9 @@
-''' 
-35ton builders
+#!/usr/bin/env python
+'''
+Define the matter required for 35t geometry.
 '''
 
 import gegede.builder
-from gegede import Quantity as Q
 
 class Matter(gegede.builder.Builder):
     '''
@@ -80,74 +80,3 @@ class Matter(gegede.builder.Builder):
         geom.matter.Mixture('LiquidArgon', density = '1.40 g/cc',
                             components = ((argon, 1.0),))
 
-
-        
-
-class SimpleCryostat(gegede.builder.Builder):
-    '''Build a simple (incorrect) cryostat.
-
-    This assumes a symmetric, concentric rectangular onion which is
-    not reality, eg the roof is not flat and it has not concrete.
-
-    '''
-    defaults = dict(
-        container_height = Q('4104 mm'), # adds extra 300 mm to accommodate nonexistent concrete roof
-        container_width = Q('4104 mm'),
-        container_length = Q('5404 mm'),
-
-        concrete_thickness = Q('300 mm'),
-        concrete_material = 'Concrete',
-
-        foam_thickness = Q('400 mm'),
-        foam_material = 'Foam',
-
-        membrane_thickness = Q('2 mm'),
-        membrane_material = 'Stainless',
-        bulk_material = 'LiquidArgon')
-
-    def configure(self, **kwds):
-        if not set(kwds).issubset(self.defaults): # no unknown keywords
-            msg = 'Unknown parameter in: "%s"' % (', '.join(sorted(kwds.keys())), )
-            raise ValueError,msg
-        self.__dict__.update(**self.defaults)    # stash them as data members
-        self.__dict__.update(**kwds)             # and update any from user
-
-    def construct(self, geom):
-        # dx,dy,dx
-        dim = [0.5* x for x in (self.container_width, self.container_length, self.container_height)]
-
-        lvs = list()
-
-        # implement onion pattern
-        for name, thick, mat in \
-            [("shell",      self.concrete_thickness, self.concrete_material),
-             ("insulation", self.foam_thickness,     self.foam_material),
-             ("membrane",   self.membrane_thickness, self.membrane_material),
-             ("bulk",       None,                    self.bulk_material)]:
-
-            shape = geom.shapes.Box(name+'_shape', *dim)
-            print '35:',shape
-
-            lv = geom.structure.Volume(name+'_volume', material = mat, shape=shape)
-
-            if lvs:             # place
-                last_lv = lvs[-1]
-                p = geom.structure.Placement("%s_in_%s" % (lv.name,last_lv.name), volume = lv)
-                last_lv.placements.append(p.name)
-                #print '35:',lv.name,last_lv.name
-                #if lv.placements:
-                #    print '\tthis: %s' % str(lv.placements)
-                #if last_lv.placements:
-                #    print '\tlast: %s' % str(last_lv.placements)
-
-            lvs.append(lv)
-
-            if thick:           # for the next layer of the onion
-                dim = [d-thick for d in dim] 
-
-            continue
-
-        print 'THIRTYFIVE: constructed %d' % len(lvs)
-
-        self.add_volume(lvs[0])
-        return

@@ -13,3 +13,13 @@ This area provides an example application of GeGeDe for the LBNE 35 ton prototyp
  - [[http://lbne2-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=7550][35t parameters]] gives a spread sheet with various dimensions and other parameters and includes a page with some 3D model renderings
 
  - [[http://lbne2-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=6642][Alan Hahn 2012]] collaboration report has photos of concrete exterior, steel vapor barrier, foam insulation, SS membrane, top exterior 
+
+ - [[https://sharepoint.fnal.gov/project/lbne/reviews/35t%20Phase%202%20Detector%20Testing%20and%20Assembly%20Review/SitePages/Agenda.aspx][35t Phase 2 Detector Testing and Assembly Review]] [2014-06-16]
+
+    - [[http://lbne2-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=9181][Photon Detectors]]  Page 3 numbering convention, pages 5-7 construction details, 
+
+ - [[https://sharepoint.fnal.gov/project/lbne/35t%20Phase%202%20Detector%20Installation%20Readiness%20Review/SitePages/Agenda.aspx][35t Phase 2 Detector Installation Readiness Review]] [2014-08-25]
+
+   - [[http://lbne2-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=9588][35t overview]] 
+
+   - [[http://lbne2-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=9176][Field Cage Design]] only has the 0.006" thickness dimension
