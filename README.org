@@ -1,14 +1,74 @@
 LBNE Geometry Descriptions
 
-* Installation
+* Installation for development
+
+This package and GeGeDe are still in development so a few extra steps are needed to install. 
+
+** Set up a Virtual Environment
+
+This helps keep the Python packages together and provides some Python package functionality that your OS may lack.
 
 #+BEGIN_EXAMPLE
-  $ virtualenv venv && source venv/bin/activate  # <-- optional
-  $ pip install lbne-geometry
+  $ virtualenv venv 
+  $ source venv/bin/activate
 #+END_EXAMPLE
 
-* Geometries
+** Get the source
+
+If you will push commits and are in the LBNE GitHub organization:
+
+#+BEGIN_EXAMPLE
+  $ git clone git@github.com:LBNE/gegede.git
+  $ git clone git@github.com:LBNE/lbne-geometry.git
+#+END_EXAMPLE
+
+Or, for only local-commits you may clone anonymously:
+
+#+BEGIN_EXAMPLE
+  $ git cleon https://github.com/LBNE/gegede.git
+  $ git cleon https://github.com/LBNE/lbne-geometry.git
+#+END_EXAMPLE
+
+** Install for development
+
+#+BEGIN_EXAMPLE
+  $ cd gegede 
+  $ python setup.py develop
+  $ cd ..
+  $ cd lbne-geometry
+  $ python setup.py develop
+  $ cd ..
+#+END_EXAMPLE
+
+Note, installing =gegede= may take a minute as it compiles some needed dependencies for =lxml=.
+
+* Usage
+
+Assuming the above:
+
+#+BEGIN_EXAMPLE
+  $ gegede-cli -o 35ton.gdml -f gdml lbne-geometry/config/35ton.cfg 
+#+END_EXAMPLE
+
+* Visualization
+
+There are various ways to visualize the result
+
+** ROOT
+
+#+BEGIN_EXAMPLE
+   $ root -l
+   root [0] geo = TGeoManager::Import("35ton.gdml")
+   root [1] geo->GetMasterVolume()->Draw("ogl")
+   root [2] TBrowser b
+#+END_EXAMPLE
+
+** GraXML
+
+See [[https://github.com/LBNE/gegede/blob/master/doc/graxml.org][here]].
+
+* Geometries supported
 
  - [[./doc/35ton.org][35 ton prototype]]
- - 34kton
+ - 34 kton
  - beam line

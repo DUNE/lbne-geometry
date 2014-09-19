@@ -1,4 +1,4 @@
-This area provides an example application of GeGeDe for the LBNE 35 ton prototype liquid argon detector.
+Some notes on developing the 35t GeGeDe model.
 
 * Other descriptions
 
@@ -23,3 +23,14 @@ This area provides an example application of GeGeDe for the LBNE 35 ton prototyp
    - [[http://lbne2-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=9588][35t overview]] 
 
    - [[http://lbne2-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=9176][Field Cage Design]] only has the 0.006" thickness dimension
+
+* Requirements to match LArSoft
+
+Phone convo with Tyler:
+
+** Naming conventions
+
+LArSoft requires specifically named parts for major detector elements matching pattern: =volXxx=:
+
+ - =volCryostat=
+ - =volTPC=
