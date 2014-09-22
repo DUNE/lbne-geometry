@@ -26,7 +26,7 @@ Some notes on developing the 35t GeGeDe model.
 
 * Requirements to match LArSoft
 
-Phone convo with Tyler:
+After a phone convo with Tyler and eyeballing =lbne35t4apa_v2*.gdml=:
 
 ** Naming conventions
 
@@ -34,3 +34,8 @@ LArSoft requires specifically named parts for major detector elements matching p
 
  - =volCryostat=
  - =volTPC=
+ - ...
+
+** Coordinate conventions
+
+They originate from novasoft -> nutools -> larsoft -> lbnecode.  Z in the nominal beam direction, X parallel to drift and such that major volume is all positive with the minor volume and wire planes being negative.  Y to follow to provide right hand coordinate system.
