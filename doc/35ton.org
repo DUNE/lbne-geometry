@@ -1,5 +1,28 @@
 Some notes on developing the 35t GeGeDe model.
 
+* The =larsoft= builders
+
+The 35t builders are in the =lbne.geo.builders.thirtyfive= module.  This namespace attempts to predict the future layout of an LBNE Python module hierarchy and as such may seem deeper than strictly needed at this point.
+
+The =.larsoft= module provides builders suitable for creating a geometry that matches the limitations and requirements that LArSoft imposes on the geometry it is able to consume.  It also is meant to match the organization of the "v2" 35t geometry (links below).  It tries to exploit the symmetries of the geometry:
+
+ - long (L) vs. short (S) TPC dimensions in X
+ - small (S) vs. medium (M) vs. large (L) dimensions in Y
+ - identical dimensions in Z
+
+Some words on each builder, from coarse to fine detail:
+
+** Cryostat
+
+The =larsoft.Cryostat= builder produces a box holding the TPCs.  It is configured with a "gap" and an "offset" in each of the X, Y and Z directions which are used to position each of the 8 TPCs volumes.  It assumes several things about its sub-builders that will product each TPC volume:
+
+ - They are named like: =TPC_[SML][SL]= in the config file
+ - They provide a "=.hdim=" tuple holding (dx,dy,dz) half dimensions of the TPC volume
+
+** TPC 
+
+The =larsoft.TPC= builder provides the =.hdim= required by =larsoft.Cryostat=.  It contains a set of global defaults of dimensions and then based on its own name it will determine it's x,y,z (full) dimensions.  These can be overridden on a case-by-case basis in the configuration file if desired (eg, to check on variations from nominal).  The Z dimension is taken to be the same between all TPCs as assumed by =larsoft.Cryostat=.
+
 * Other descriptions
 
  - [[https://cdcvs.fnal.gov/redmine/projects/lbnecode/wiki/LBNE_Geometries#35t-Prototype-Geometry][lbnecode wiki]] has a figure with some major elements labeled and with a "global" coordinate system definition. See also [[https://cdcvs.fnal.gov/redmine/projects/35ton/wiki/Lbne35t4apa_v3][v3]] for 35t geo from Tyler.  
@@ -39,3 +62,4 @@ LArSoft requires specifically named parts for major detector elements matching p
 ** Coordinate conventions
 
 They originate from novasoft -> nutools -> larsoft -> lbnecode.  Z in the nominal beam direction, X parallel to drift and such that major volume is all positive with the minor volume and wire planes being negative.  Y to follow to provide right hand coordinate system.
+
