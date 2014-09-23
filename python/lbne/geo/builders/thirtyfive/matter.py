@@ -65,11 +65,11 @@ class Matter(gegede.builder.Builder):
         # C3H8N2O
         # Actual ELFOAM formula is "proprietary" woopty doo
         # http://www.elliottfoam.com/pdf/ELFOAM%20Safety%20Data%20Sheet%201401.pdf
-        geom.matter.Mixture('Foam', density = '32 kg/m^3',
-                            components = ((carbon, 3),
-                                          (hydrogen, 8),
-                                          (nitrogen, 2),
-                                          (oxygen, 1)))
+        geom.matter.Molecule('Foam', density = '32 kg/m^3',
+                             elements = ((carbon, 3),
+                                         (hydrogen, 8),
+                                         (nitrogen, 2),
+                                         (oxygen, 1)))
 
         geom.matter.Mixture('Stainless', density = '7.9300 g/cc',
                             components = ((carbon,   0.0010),
