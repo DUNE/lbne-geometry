@@ -63,3 +63,19 @@ LArSoft requires specifically named parts for major detector elements matching p
 
 They originate from novasoft -> nutools -> larsoft -> lbnecode.  Z in the nominal beam direction, X parallel to drift and such that major volume is all positive with the minor volume and wire planes being negative.  Y to follow to provide right hand coordinate system.
 
+* Measurements from Rahul
+
+Sat down with Rahul and the 35ton model:
+
+ - membrane to face of short drift CPA 225 mm
+ - I-beam to membrane wall, 210 mm, I-beam width 4"
+ - membrane to field cage, outside, 309.5mm
+ - CPA tubes, 2"
+ - APA tubes, 2x4" or 2x3" (inner cross pieces)
+ - field cage outer, 2002.1mm vert, 1588.5mm horiz
+ - 21mm bottom-to-bottom field-cage to long APA 
+ - long APA cross pieces: read bottom-up: 636.4mm, 636.4mm, 661.8mm measured from top to top faces
+ - APA frame width 504mm
+ - comb width, 1/2"
+ - middle APA, bottom of lower cross bar to bottom of field cage 730.0mm
+ - medium apa, top of bottom cross to top of middle cross 432.8mm
