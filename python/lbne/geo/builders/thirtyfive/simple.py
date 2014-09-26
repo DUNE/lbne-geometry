@@ -69,7 +69,7 @@ class Cryostat(gegede.builder.Builder):
             continue
 
         mb_vol = lvs[-1]
-        det_vol_name = self.builders[0].volumes[0]
+        det_vol_name = self.get_builder(0).get_volume(0).name
         # fixme: place in center for now
         mb_vol.placements.append(gs.Placement(None, volume=det_vol_name).name)
 
@@ -93,12 +93,11 @@ class Detector(gegede.builder.Builder):
         gs = geom.structure     # shorthand 
 
         total_length = sum([b.length for b in self.builders])
-        volumes = [b.volumes[0] for b in self.builders]
         arrow = -0.5 * total_length
         placements = list()
 
         for b in self.builders:
-            vol = b.volumes[0]
+            vol = b.get_volume(0)
             place = gs.Placement(None, volume = vol,
                                  pos = gs.Position(None, y = arrow + 0.5 * b.length))
             arrow += b.length

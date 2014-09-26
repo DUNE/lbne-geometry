@@ -1,0 +1,14 @@
+#+TITLE: Install Issues
+
+* No =virtualenv= program available
+
+If your OS does not provide =virtualenv= it can be very easily installed as [[http://virtualenv.readthedocs.org/en/latest/virtualenv.html#installation][described following this link]].
+
+If you do not wish to use a Virtual Environment to install GeGeDe and its dependencies you can instead install it into your "user area" by passing the "=--user=" option to =python setup.py=.
+
+* No =lxml= Python module available
+
+GeGeDe relies on the =lxml= module to export GDML and any other XML based formats.  Many systems will supply this as an OS-level package (=python-lxml= on Debian).  If your OS can not provide it the GeGeDe installation procedure will attempt to download, build and install it.  This requires the development versions of the =libxml2= and =libxslt= to be available.  If your OS does not provide these they will *not* be installed automatically.  It will be your responsibility to provide them.  On Debian they are provided by the =libxml2-dev= and =libxslt-dev= packages.
+
+
+

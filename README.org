@@ -25,7 +25,7 @@ If you will push commits and are in the LBNE GitHub organization:
 Or, for only local-commits you may clone anonymously:
 
 #+BEGIN_EXAMPLE
-  $ git cleon https://github.com/LBNE/gegede.git
+  $ git clone https://github.com/LBNE/gegede.git
   $ git cleon https://github.com/LBNE/lbne-geometry.git
 #+END_EXAMPLE
 
@@ -40,7 +40,11 @@ Or, for only local-commits you may clone anonymously:
   $ cd ..
 #+END_EXAMPLE
 
-Note, installing =gegede= may take a minute as it compiles some needed dependencies for =lxml=.
+Note, installing =gegede= may take a minute as it compiles =lxml=.
+
+** Installation issues
+
+GeGeDe uses standard Python installation methods and should "just work" on systems with reasonable support.  But, some systems may have issues and known ones are collected in [[./doc/install-issues.org]].
 
 * Usage
 
