@@ -69,13 +69,13 @@ class Cryostat(gegede.builder.Builder):
         short_drift_distance = 2.0*self.get_builder('TPC_MS').hdim[0]
         long_drift_distance  = 2.0*self.get_builder('TPC_ML').hdim[0]
 
-        tpcs_xtot = 2.0*(short_drift_distance + long_drift_distance) + self.x_gap
+        tpcs_xtot = short_drift_distance + long_drift_distance + self.x_gap
         tpcs_ytot =   2.0*self.get_builder('TPC_ML').hdim[1] + 2.0*self.get_builder('TPC_SL').hdim[1] + self.y_gap
         tpcs_ztot = 3*2.0*self.get_builder('TPC_ML').hdim[2] + 2.0*self.z_gap
 
         # place wire frame volume into gap
         frame_builder = self.get_builder('WireFrame')
-        frame_x = -tpcs_xtot + short_drift_distance + 0.5*self.x_gap
+        frame_x = -0.5*tpcs_xtot + short_drift_distance + 0.5*self.x_gap
         frame_pos = geom.structure.Position(None, x=frame_x)
         frame_place = geom.structure.Placement(None, volume = frame_builder.get_volume(0), pos=frame_pos)
         children.append(frame_place)
@@ -179,12 +179,13 @@ class WireFrameOne(gegede.builder.Builder):
     '''
 
     defaults = dict(
-        frame_dim = (Q('2 inch'), Q('4 inch')), # dimensions of the main frame members
-        cross_dim = (Q('2 inch'), Q('3 inch')), # dimensions of the main cross members
-        height = Q('2036 mm'),                  # full top-to-bottom height
-        width = Q('504 mm'),                    # full side-to-side width
+        frame_dim = (Q('2 inch'), Q('4 inch')), # dimensions of the main members
+        cross_dim = (Q('2 inch'), Q('3 inch')), # dimensions of the cross members
+        height = Q('2036 mm'),                  # full top-to-bottom height of one frame
+        width = Q('504 mm'),                    # full side-to-side width of one frame
         # fixme: 5mm is invented, and assumed universal - needs checking
-        thick = Q('5 mm'),                      # rectangular tube thickness
+        thick = Q('5 mm'),                      # rectangular tube wall thickness
+        # distance from top to center of cross pieces
         cross_centers = (Q('699.9 mm'), Q('1336.3 mm')),
         bar_material = 'Stainless',
         material = 'LiquidArgon',
@@ -194,35 +195,43 @@ class WireFrameOne(gegede.builder.Builder):
         Make a bar of <length> along z-axis and x/y_size (X, Y)-axes with walls of <thick>.
         '''
         thick = self.thick      # note: assumed universal
-        bar_outer = geom.shapes.Box(None, 0.5*x_size,       0.5*x_size,       0.5*length)
+        bar_outer = geom.shapes.Box(None, 0.5*x_size,       0.5*y_size,       0.5*length)
         bar_inner = geom.shapes.Box(None, 0.5*x_size-thick, 0.5*y_size-thick, 0.5*length)
         bar_shape = geom.shapes.Boolean(None, 'subtraction', 
                                         first=bar_outer, second=bar_inner)
-        return geom.structure.Volume(None, material = self.material, shape=bar_shape)
+        return geom.structure.Volume(None, material = self.bar_material, shape=bar_shape)
 
     def make_sides(self, geom, length, width, rot = None):
+        '''
+        Make and place two sides of a frame of given <length> placed to make a given <width>
+        '''
         dim = self.frame_dim
-        if rot: rot = geom.structure.Rotation(None, x=Q(rot))
         bar = self.make_bar_tube(geom, dim[0], dim[1], length)
         off = 0.5*(width - dim[1])
-        posp = geom.structure.Position(None, z=+1*off)
-        posm = geom.structure.Position(None, z=-1*off)
+        if rot: 
+            rot = geom.structure.Rotation(None, x=Q(rot))
+            posp = geom.structure.Position(None, z=+1*off)
+            posm = geom.structure.Position(None, z=-1*off)
+        else:
+            posp = geom.structure.Position(None, y=+1*off)
+            posm = geom.structure.Position(None, y=-1*off)
+
         return (geom.structure.Placement(None, volume=bar, pos=posp, rot=rot),
                 geom.structure.Placement(None, volume=bar, pos=posm, rot=rot))
 
     def construct(self, geom):
         children = list()
 
-        cross_length = self.height-2*self.frame_dim[1]
+        cross_width = self.width-2*self.frame_dim[1]
 
         children += self.make_sides(geom, self.height, self.width, '90 deg')
-        children += self.make_sides(geom, self.width, cross_length)
+        children += self.make_sides(geom, cross_width, self.height)
 
         center = 0.5*self.height # measure cross centers from top of frame
-        for cross in self.cross_centers:
-            center -= cross
-            bar = self.make_bar_tube(geom, self.cross_dim[0], self.cross_dim[1], cross_length)
-            pos = geom.structure.Position(None, y=center)
+        for cross_center in self.cross_centers:
+            abs_cross_center = center - cross_center
+            bar = self.make_bar_tube(geom, self.cross_dim[0], self.cross_dim[1], cross_width)
+            pos = geom.structure.Position(None, y=abs_cross_center)
             place = geom.structure.Placement(None, volume=bar, pos=pos)
             children.append(place)
 
@@ -270,14 +279,13 @@ class WireFrame(gegede.builder.Builder):
         # large
         l_volume = self.get_builder(2).get_volume(0)
         l_shape = geom.get_shape(l_volume.shape)
-        posm = geom.structure.Position(None, x = -1*self.large_offset, y=self.large_center)
-        posp = geom.structure.Position(None, x = +1*self.large_offset, y=self.large_center)
+        posm = geom.structure.Position(None, z = -1*self.large_offset, y=self.large_center)
+        posp = geom.structure.Position(None, z = +1*self.large_offset, y=self.large_center)
         children += [
             geom.structure.Placement(None, volume=l_volume, pos=posm),
             geom.structure.Placement(None, volume=l_volume, pos=posp)
         ]
         maxyext = max(maxyext, self.large_center + l_shape.dx)
-
 
         # envelope
         env_shape = geom.shapes.Box(None, dx=l_shape.dx, dy = maxyext, dz = self.large_offset + l_shape.dz)
