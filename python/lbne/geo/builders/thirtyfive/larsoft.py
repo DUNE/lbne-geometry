@@ -27,7 +27,7 @@ class Cryostat(gegede.builder.Builder):
     '''
     defaults = dict(
         # FIXME: these numbers are bogus and taken by eye from ROOT disp of old geom
-        x_gap = Q('1 inch'),     # distance between short/long TPC faces
+        x_gap = Q('2 inch'),     # distance between short/long TPC faces
         x_offset = Q('-100 cm'), # distance from cryo center to TPC gap center in X
         y_gap = Q('2 inch'),      # gap between S and M TPCs in Y
         y_offset = Q('-18 cm'), # distance from cryo center to apa1/2 border
@@ -190,7 +190,7 @@ class WireFrameOne(gegede.builder.Builder):
         bar_material = 'Stainless',
         material = 'LiquidArgon',
     )
-    def make_bar_tube(self, geom, x_size, y_size, length):
+    def make_bar_tube(self, volname, geom, x_size, y_size, length):
         '''
         Make a bar of <length> along z-axis and x/y_size (X, Y)-axes with walls of <thick>.
         '''
@@ -199,14 +199,14 @@ class WireFrameOne(gegede.builder.Builder):
         bar_inner = geom.shapes.Box(None, 0.5*x_size-thick, 0.5*y_size-thick, 0.5*length)
         bar_shape = geom.shapes.Boolean(None, 'subtraction', 
                                         first=bar_outer, second=bar_inner)
-        return geom.structure.Volume(None, material = self.bar_material, shape=bar_shape)
+        return geom.structure.Volume(volname, material = self.bar_material, shape=bar_shape)
 
-    def make_sides(self, geom, length, width, rot = None):
+    def make_sides(self, volname, geom, length, width, rot = None):
         '''
         Make and place two sides of a frame of given <length> placed to make a given <width>
         '''
         dim = self.frame_dim
-        bar = self.make_bar_tube(geom, dim[0], dim[1], length)
+        bar = self.make_bar_tube(volname, geom, dim[0], dim[1], length)
         off = 0.5*(width - dim[1])
         if rot: 
             rot = geom.structure.Rotation(None, x=Q(rot))
@@ -224,20 +224,22 @@ class WireFrameOne(gegede.builder.Builder):
 
         cross_width = self.width-2*self.frame_dim[1]
 
-        children += self.make_sides(geom, self.height, self.width, '90 deg')
-        children += self.make_sides(geom, cross_width, self.height)
+        children += self.make_sides('vol'+self.name+'LongSide', geom, self.height, self.width, '90 deg')
+        children += self.make_sides('vol'+self.name+'ShortSide', geom, cross_width, self.height)
 
         center = 0.5*self.height # measure cross centers from top of frame
-        for cross_center in self.cross_centers:
+        for count, cross_center in enumerate(self.cross_centers):
             abs_cross_center = center - cross_center
-            bar = self.make_bar_tube(geom, self.cross_dim[0], self.cross_dim[1], cross_width)
+            volname = 'vol%sCross%d' % (self.name, count)
+            bar = self.make_bar_tube(volname, geom, self.cross_dim[0], self.cross_dim[1], cross_width)
             pos = geom.structure.Position(None, y=abs_cross_center)
             place = geom.structure.Placement(None, volume=bar, pos=pos)
             children.append(place)
 
         # use envelope volume since GDML hates assemblies
+        volname = 'vol%s' % self.name
         shape = geom.shapes.Box(None, dx=0.5*self.frame_dim[0], dy=0.5*self.height, dz=0.5*self.width)
-        env_vol = geom.structure.Volume('vol' + self.name, material=self.material,
+        env_vol = geom.structure.Volume(volname, material=self.material,
                                         shape=shape, placements = children)
         self.add_volume(env_vol)
 
