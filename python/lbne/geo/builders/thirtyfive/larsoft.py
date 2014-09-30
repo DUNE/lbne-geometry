@@ -42,7 +42,7 @@ class Cryostat(gegede.builder.Builder):
         # s,m,l
         children = list()
         for height_letter, y_factor in zip('SML', (-1, +1, 0)):
-            for drift_letter, x_sign, rot_angle in zip('SL',(-1, +1), (Q('180 deg'), 0)):
+            for drift_letter, x_sign, rot_angle in zip('SL',(-1, +1), (Q('180 degree'), 0)):
                 tpcb = self.get_builder('TPC_' + height_letter + drift_letter)
 
                 x_offset = self.x_offset + x_sign * (0.5*self.x_gap + tpcb.hdim[0])
@@ -224,7 +224,7 @@ class WireFrameOne(gegede.builder.Builder):
 
         cross_width = self.width-2*self.frame_dim[1]
 
-        children += self.make_sides('vol'+self.name+'LongSide', geom, self.height, self.width, '90 deg')
+        children += self.make_sides('vol'+self.name+'LongSide', geom, self.height, self.width, '90 degree')
         children += self.make_sides('vol'+self.name+'ShortSide', geom, cross_width, self.height)
 
         center = 0.5*self.height # measure cross centers from top of frame
@@ -250,7 +250,7 @@ class WireFrame(gegede.builder.Builder):
     '''
 
     defaults = dict(
-        small_center = 0.5*Q('730.0mm') + Q('4 inch') - 0.5*Q('2002.1mm'),
+        small_center = 0.5*Q('730.0mm') - Q('4 inch') - 0.5*Q('2002.1mm'),
         medium_center = 0.5*Q('2002.1mm') - 0.5*Q('1196.2mm'),
         large_center = 0.5*Q('2002.1mm') - 0.5*Q('2036.2mm'),
         large_offset = Q('505 mm') + Q('1 inch'),
@@ -268,7 +268,7 @@ class WireFrame(gegede.builder.Builder):
         pos = geom.structure.Position(None, y=self.small_center)
         place = geom.structure.Placement(None, volume=s_volume, pos=pos)
         children.append(place)
-        maxyext = max(maxyext, self.small_center + s_shape.dx)
+        maxyext = max(maxyext, abs(self.small_center - s_shape.dy))
 
         # medium
         m_volume = self.get_builder(1).get_volume(0)
@@ -276,7 +276,7 @@ class WireFrame(gegede.builder.Builder):
         pos = geom.structure.Position(None, y=self.medium_center)
         place = geom.structure.Placement(None, volume=m_volume, pos=pos)
         children.append(place)
-        maxyext = max(maxyext, self.medium_center + m_shape.dx)
+        maxyext = max(maxyext, self.medium_center + m_shape.dy)
 
         # large
         l_volume = self.get_builder(2).get_volume(0)
@@ -287,7 +287,7 @@ class WireFrame(gegede.builder.Builder):
             geom.structure.Placement(None, volume=l_volume, pos=posm),
             geom.structure.Placement(None, volume=l_volume, pos=posp)
         ]
-        maxyext = max(maxyext, self.large_center + l_shape.dx)
+        maxyext = max(maxyext, self.large_center + l_shape.dy)
 
         # envelope
         env_shape = geom.shapes.Box(None, dx=l_shape.dx, dy = maxyext, dz = self.large_offset + l_shape.dz)
