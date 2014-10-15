@@ -47,6 +47,16 @@ The =larsoft.TPC= builder provides the =.hdim= required by =larsoft.Cryostat=.  
 
    - [[http://lbne2-docdb.fnal.gov:8080/cgi-bin/ShowDocument?docid=9176][Field Cage Design]] only has the 0.006" thickness dimension
 
+ - Lots of beautiful drawings at http://webfs.psl.wisc.edu/LBNE/Liquid-argon/
+
+   - [[http://webfs.psl.wisc.edu/LBNE/Liquid-argon/35%20Ton%20TPC%20Information/APA%27s/APA%20Drawings/Frame%20drawings/8752310c_c.PDF][small wire frame]]
+   - [[http://webfs.psl.wisc.edu/LBNE/Liquid-argon/35%20Ton%20TPC%20Information/APA%27s/APA%20Drawings/Frame%20drawings/8752305c_c%2035T%204%20BOARD%20FRAME.PDF][medium wire frame]]
+   - [[http://webfs.psl.wisc.edu/LBNE/Liquid-argon/35%20Ton%20TPC%20Information/APA%27s/APA%20Drawings/Frame%20drawings/8752300c_c%2035T%20FRAME%207%20BOARD%20FRAME.PDF][large wire frame]]
+
+   - [[http://webfs.psl.wisc.edu/LBNE/Liquid-argon/35%20Ton%20TPC%20Information/Field%20Cage/][Field Cage]] as =FabDwg.pdf= files in the sub directories.
+
+   - [[http://webfs.psl.wisc.edu/LBNE/Liquid-argon/35%20Ton%20TPC%20Information/CPA%27s/0ECPA0002.pdf][CPA assembly]] and [[http://webfs.psl.wisc.edu/LBNE/Liquid-argon/35%20Ton%20TPC%20Information/CPA%27s/0ECPA0001.pdf][part dimensions]]
+
 * Requirements to match LArSoft
 
 After a phone convo with Tyler and eyeballing =lbne35t4apa_v2*.gdml=:

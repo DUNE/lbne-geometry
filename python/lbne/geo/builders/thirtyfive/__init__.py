@@ -1,2 +1,4 @@
 from matter import *
-from simple import *
+
+from detector import *
+
