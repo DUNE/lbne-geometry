@@ -61,7 +61,10 @@ class Cage(gegede.builder.Builder):
         )
 
     def construct(self, geom):
-        inner = geom.shapes.Box(None, 0.5*self.length, 0.5*self.height-self.thickness, 0.5*self.width-self.thickness)
+        inner = geom.shapes.Box(None, 
+                                0.5*self.length+self.thickness, # add a bit to punch out the hole
+                                0.5*self.height-self.thickness, 
+                                0.5*self.width-self.thickness)
         outer = geom.shapes.Box(None, 0.5*self.length, 0.5*self.height, 0.5*self.width)
         shape = geom.shapes.Boolean(None, 'subtraction', first=outer, second=inner)
         vol = geom.structure.Volume('vol'+self.name, material = self.material, shape=shape)
@@ -289,7 +292,7 @@ class Drift(gegede.builder.Builder):
 
         # place small nominally down in Y by medium's dy
         pos = geom.structure.Position(None, y=-1*mtpc_shape.dy + self.y_sm_tpc_offset)
-        place = geom.structure.Placement(None, volume=mtpc_vol, pos=pos)
+        place = geom.structure.Placement(None, volume=stpc_vol, pos=pos)
         children.append(place)
 
         # use envelope volume since GDML hates assemblies
