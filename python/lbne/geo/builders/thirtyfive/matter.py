@@ -41,6 +41,7 @@ class Matter(gegede.builder.Builder):
         chromium   = geom.matter.Element("chromium",  "Cr", 24, "51.9961 g/mole")
         iron       = geom.matter.Element("iron",      "Fe", 26, "55.8450 g/mole")
         nickel     = geom.matter.Element("nickel",    "Ni", 28, "58.6934 g/mole")
+        copper     = geom.matter.Element("copper",    "Cu", 29, "63.546 g/mole")
         #titanium   = geom.matter.Element("titanium","  Ti", 22, "47.867 g/mole")
         #bromine    = geom.matter.Element("bromine",   "Br", 35,"79.904 g/mole")
 
@@ -80,3 +81,6 @@ class Matter(gegede.builder.Builder):
         geom.matter.Mixture('LiquidArgon', density = '1.40 g/cc',
                             components = ((argon, 1.0),))
 
+        # Fixme: this is really G10/F4 with copper plating.  Use density of former, element of latter
+        geom.matter.Mixture('FieldCage', density = '1.850 g/cc', # from wikipedia
+                            components = ((copper, 1.0),))

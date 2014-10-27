@@ -35,7 +35,7 @@ class BoxWithOne(gegede.builder.Builder):
     defaults = dict(
         material = 'Air',
         dim = (Q('1m'),Q('1m'),Q('1m')),
-        off = (Q('1m'),Q('1m'),Q('1m')),
+        off = (Q('0m'),Q('0m'),Q('0m')),
         sbind = 0,
         volind = 0,
     )

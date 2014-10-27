@@ -2,7 +2,7 @@ LBNE Geometry Descriptions
 
 * Installation for development
 
-This package and GeGeDe are still in development so a few extra steps are needed to install. 
+This package and [[https://github.com/brettviren/gegede][GeGeDe]] are still in development so a few extra steps are needed to install. 
 
 ** Set up a Virtual Environment
 
